@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Xively::Base do
   describe "#is_xively" do
     it "should take a class name and a hash of options" do
-      lambda { Feed.is_xively }.should raise_error(ArgumentError, "wrong number of arguments (0 for 1)")
-      lambda { Feed.is_xively(:feed, {}, "bogus third arg") }.should raise_error(ArgumentError, "wrong number of arguments (3 for 2)")
+      lambda { Feed.is_xively }.should raise_error(ArgumentError, /wrong number of arguments/)
+      lambda { Feed.is_xively(:feed, {}, "bogus third arg") }.should raise_error(ArgumentError, /wrong number of arguments/)
     end
 
     it "should assign mapping class" do
