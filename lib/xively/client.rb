@@ -7,7 +7,7 @@ module Xively
     attr_accessor :api_key
 
     def self.user_agent
-      "xively-rb/#{Xively::VERSION}"
+      "xively/#{Xively::VERSION}"
     end
 
     def initialize(api_key)

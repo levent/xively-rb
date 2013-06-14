@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "xively-rb/version"
+require "xively/version"
 
 Gem::Specification.new do |s|
-  s.name        = "xively-rb"
+  s.name        = "xively"
   s.version     = Xively::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Paul Bellamy", "Levent Ali", "Sam Mulube"]

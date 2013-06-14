@@ -1,4 +1,4 @@
-require 'xively-rb/base/instance_methods'
+require 'xively/base/instance_methods'
 
 module Xively
   # Provide an interface for your model objects by extending this module:

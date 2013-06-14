@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-# Gem dependencies specified in xively-rb.gemspec
+# Gem dependencies specified in xively.gemspec
 gemspec
 
 group :development do

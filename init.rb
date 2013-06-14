@@ -1,2 +1,1 @@
-require 'lib/xively-rb'
-
+require 'lib/xively'

@@ -12,7 +12,7 @@ if !defined?(JRUBY_VERSION)
     require 'simplecov'
     SimpleCov.start do
       add_filter "/spec/"
-      add_filter "/lib/xively-rb.rb"
+      add_filter "/lib/xively.rb"
       add_filter "/vendor/"
       minimum_coverage 100
     end
@@ -22,7 +22,7 @@ end
 Dir['./spec/support/**/*.rb'].map {|f| require f}
 
 $:.push File.expand_path("../lib", __FILE__)
-require 'xively-rb'
+require 'xively'
 
 require File.dirname(__FILE__) + '/fixtures/models.rb'
 

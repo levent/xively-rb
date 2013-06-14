@@ -1,0 +1,6 @@
+require 'xively/parsers/json/feed_defaults'
+require 'xively/parsers/json/search_result_defaults'
+require 'xively/parsers/json/datastream_defaults'
+require 'xively/parsers/json/datapoint_defaults'
+require 'xively/parsers/json/trigger_defaults'
+require 'xively/parsers/json/key_defaults'
