@@ -3,7 +3,7 @@ module Xively
     module InstanceMethods
 
       # Converts a model that extends Xively::Base into it's equivalent Xively object
-      #  this can then be used to convert into xml, json or csv
+      #  this can then be used to convert into json
       def to_xively
         attributes = {}
         self.class.xively_class::ALLOWED_KEYS.each do |key|

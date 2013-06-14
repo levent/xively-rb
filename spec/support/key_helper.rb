@@ -13,36 +13,6 @@ def key_as_(format, options = {})
           ]
         }
       ]}
-  when 'xml'
-    data = <<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<key>
-  <id>40</id>
-  <api-key>abcdefghasdfaoisdj109usasdf0a9sf</api-key>
-  <expires-at>12345</expires-at>
-  <user>lebreeze</user>
-  <label>Our awesome label</label>
-  <private-access>true</private-access>
-  <permissions>
-    <permission>
-      <referer>http://xively.com</referer>
-      <source-ip>127.0.0.1</source-ip>
-      <access-methods>
-        <access-method>GET</access-method>
-        <access-method>PUT</access-method>
-        <access-method>POST</access-method>
-        <access-method>DELETE</access-method>
-      </access-methods>
-      <resources>
-        <resource>
-          <feed-id>424</feed-id>
-          <datastream-id>1</datastream-id>
-        </resource>
-      </resources>
-    </permission>
-  </permissions>
-</key>
-XML
   end
 
   # Add extra options we passed
@@ -65,8 +35,6 @@ XML
     data
   when 'json'
     MultiJson.dump({ "key" => data })
-  when 'xml'
-    data
   else
     raise "#{format} undefined"
   end

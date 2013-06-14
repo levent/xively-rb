@@ -113,8 +113,6 @@ def search_result_as_(format, options = {})
     }
   when 'json'
     data = search_result_as_json(options[:version] || "1.0.0")
-  when 'xml'
-    raise "Not implemented"
   end
 
   # Add extra options we passed
@@ -137,8 +135,6 @@ def search_result_as_(format, options = {})
     data
   when 'json'
     MultiJson.dump(data)
-  when 'xml'
-    data
   else
     raise "#{format} undefined"
   end
