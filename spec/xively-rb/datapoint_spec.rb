@@ -28,11 +28,6 @@ describe Xively::Datapoint do
       end
     end
 
-    it "should accept xml" do
-      datapoint = Xively::Datapoint.new(datapoint_as_(:xml))
-      datapoint.value.should == "2000"
-    end
-
     it "should accept json" do
       datapoint = Xively::Datapoint.new(datapoint_as_(:json))
       datapoint.value.should == "2000"
@@ -41,24 +36,6 @@ describe Xively::Datapoint do
     it "should accept a hash of attributes" do
       datapoint = Xively::Datapoint.new(datapoint_as_(:hash))
       datapoint.value.should == "2000"
-    end
-
-    it "should raise known exception if passed json but told xml" do
-      expect {
-        Xively::Datapoint.new(datapoint_as_(:json), :xml)
-      }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-    end
-
-    it "should raise known exception if passed xml but told json" do
-      expect {
-        Xively::Datapoint.new(datapoint_as_(:xml), :json)
-      }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
-    end
-
-    it "should raise known exception if given unknown format" do
-      expect {
-        Xively::Datapoint.new(datapoint_as_(:json), :msgpack)
-      }.to raise_error(Xively::InvalidFormatError)
     end
   end
 
@@ -106,42 +83,6 @@ describe Xively::Datapoint do
       datapoint = Xively::Datapoint.new({:at => now, :value => 123})
       datapoint.generate_json.should == {:at => now.iso8601(6), :value => 123}
     end
-  end
-
-  describe "#to_csv" do
-    it "should call the csv generator with default version (nil as there only is one version)" do
-      datapoint = Xively::Datapoint.new({})
-      datapoint.should_receive(:generate_csv).with(nil, {}).and_return("3")
-      datapoint.to_csv.should == "3"
-    end
-
-    it "should accept optional csv version" do
-      datapoint = Xively::Datapoint.new({})
-      datapoint.should_receive(:generate_csv).with("1", {}).and_return("34")
-      datapoint.to_csv(:version => "1").should == "34"
-    end
-
-    it "should accept additional options" do
-      datapoint = Xively::Datapoint.new({})
-      datapoint.should_receive(:generate_csv).with("1", {:full => true}).and_return("34")
-      datapoint.to_csv(:version => "1", :full => true).should == "34"
-    end
-  end
-
-  describe "#to_xml" do
-
-    it "should call the xml generator with default version (nil as there only is one version)" do
-      datapoint = Xively::Datapoint.new({})
-      datapoint.should_receive(:generate_xml).with(nil).and_return("<xml></xml>")
-      datapoint.to_xml.should == "<xml></xml>"
-    end
-
-    it "should accept optional xml version" do
-      datapoint = Xively::Datapoint.new({})
-      datapoint.should_receive(:generate_xml).with("5").and_return("<xml></xml>")
-      datapoint.to_xml(:version => "5").should == "<xml></xml>"
-    end
-
   end
 
   describe "#as_json" do

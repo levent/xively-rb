@@ -79,61 +79,17 @@ describe Xively::Feed do
       end
     end
 
-    %w(xml json hash).each do |format|
+    %w(json hash).each do |format|
       it "should accept #{format}" do
         feed = Xively::Feed.new(feed_as_(format.to_sym))
         feed.title.downcase.should == "xively office environment"
       end
 
-      %w(to_csv as_json to_xml to_json attributes).each do |output_format|
+      %w(as_json to_json attributes).each do |output_format|
         it "should be able to output from #{format} using #{output_format}" do
           feed = Xively::Feed.new(feed_as_(format.to_sym))
           lambda {feed.send(output_format.to_sym)}.should_not raise_error
         end
-      end
-    end
-
-    context "specifying format" do
-      it "should raise known exception if told xml but given csv" do
-        expect {
-          Xively::Feed.new(feed_as_(:csv), :v2, :xml)
-        }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-      end
-
-      it "should raise known exception if told xml but given json" do
-        expect {
-          Xively::Feed.new(feed_as_(:json), nil, :xml)
-        }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-      end
-
-      it "should raise known exception if told json but given xml" do
-        expect {
-          Xively::Feed.new(feed_as_(:xml), nil, :json)
-        }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
-      end
-
-      it "should raise known exception if told json but given csv" do
-        expect {
-          Xively::Feed.new(feed_as_(:csv), nil, :json)
-        }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
-      end
-
-      it "should raise known exception if told csv but given xml" do
-        expect {
-          Xively::Feed.new(feed_as_(:xml), :v2, :csv)
-        }.to raise_error(Xively::Parsers::CSV::InvalidCSVError)
-      end
-
-      it "should raise known exception if told csv but given json" do
-        expect {
-          Xively::Feed.new(feed_as_(:json), :v2, :csv)
-        }.to raise_error(Xively::Parsers::CSV::InvalidCSVError)
-      end
-
-      it "should raise known exception if told format is something unknown" do
-        expect {
-          Xively::Feed.new(feed_as_(:json), :v2, :msgpack)
-        }.to raise_error(Xively::InvalidFormatError)
       end
     end
   end
@@ -253,43 +209,6 @@ describe Xively::Feed do
     it "should take a version and generate the appropriate template" do
       feed = Xively::Feed.new({})
       feed.generate_json("1.0.0").should == {:version => "1.0.0"}
-    end
-  end
-
-  describe "#to_csv" do
-    it "should call the csv generator with default version" do
-      feed = Xively::Feed.new({})
-      feed.should_receive(:generate_csv).with("2", {}).and_return("1,2,3,4")
-      feed.to_csv.should == "1,2,3,4"
-    end
-
-    it "should accept optional csv version" do
-      version = "1"
-      feed = Xively::Feed.new({})
-      feed.should_receive(:generate_csv).with(version, {}).and_return("1,2,3,4")
-      feed.to_csv(:version => version).should == "1,2,3,4"
-    end
-
-    it "should accept additional options" do
-      version = "1"
-      feed = Xively::Feed.new({})
-      feed.should_receive(:generate_csv).with(version, :full => true).and_return("1,2,3,4")
-      feed.to_csv(:version => version, :full => true).should == "1,2,3,4"
-    end
-  end
-
-  describe "#to_xml" do
-    it "should call the xml generator with default version" do
-      feed = Xively::Feed.new({})
-      feed.should_receive(:generate_xml).with("0.5.1", {}).and_return("<xml></xml>")
-      feed.to_xml.should == "<xml></xml>"
-    end
-
-    it "should accept optional xml version" do
-      version = "5"
-      feed = Xively::Feed.new({})
-      feed.should_receive(:generate_xml).with(version, {}).and_return("<xml></xml>")
-      feed.to_xml(:version => version).should == "<xml></xml>"
     end
   end
 

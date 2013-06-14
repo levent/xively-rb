@@ -4,7 +4,6 @@ module Xively
     ALLOWED_KEYS.each { |key| attr_accessor(key.to_sym) }
 
     include Xively::Templates::JSON::SearchResultDefaults
-    include Xively::Templates::XML::SearchResultDefaults
     include Xively::Parsers::JSON::SearchResultDefaults
 
     @@feed_class = Xively::Feed
@@ -57,12 +56,5 @@ module Xively
     def to_json(options = {})
       MultiJson.dump as_json(options)
     end
-
-    def to_xml(options = {})
-      options[:version] ||= "0.5.1"
-      generate_xml(options[:version])
-    end
-
   end
 end
-

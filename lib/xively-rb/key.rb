@@ -5,9 +5,7 @@ module Xively
     NESTED_KEYS = %w(permissions)
 
     include Xively::Templates::JSON::KeyDefaults
-    #include Xively::Templates::XML::KeyDefaults
     include Xively::Parsers::JSON::KeyDefaults
-    include Xively::Parsers::XML::KeyDefaults
 
     include Validations
 
@@ -33,14 +31,11 @@ module Xively
     end
 
     # Build an instance from either a Hash, a JSON string, or an XML document
-    def initialize(input = {}, format = nil)
-      raise InvalidFormatError, "Unknown format specified, currently we can only parse JSON or XML." unless [nil,:json,:xml].include?(format)
+    def initialize(input = {})
       if input.is_a?(Hash)
         self.attributes = input
-      elsif format == :json || (format.nil? && input.strip[0...1].to_s == "{")
-        self.attributes = from_json(input)
       else
-        self.attributes = from_xml(input)
+        self.attributes = from_json(input)
       end
     end
 

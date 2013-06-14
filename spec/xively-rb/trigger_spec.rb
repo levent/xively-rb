@@ -28,11 +28,6 @@ describe Xively::Trigger do
       end
     end
 
-    it "should accept xml" do
-      trigger = Xively::Trigger.new(trigger_as_(:xml))
-      trigger.url.should == "http://www.postbin.org/zc9sca"
-    end
-
     it "should accept json" do
       trigger = Xively::Trigger.new(trigger_as_(:json))
       trigger.url.should == "http://www.postbin.org/zc9sca"
@@ -41,46 +36,6 @@ describe Xively::Trigger do
     it "should accept a hash of attributes" do
       trigger = Xively::Trigger.new(trigger_as_(:hash))
       trigger.url.should == "http://www.postbin.org/zc9sca"
-    end
-
-    context "specifying format explicitly" do
-      it "should raise known exception if passed json but told xml" do
-        expect {
-          Xively::Trigger.new(trigger_as_(:json), :xml)
-        }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-      end
-
-      it "should raise known exception if passed xml but told json" do
-        expect {
-          Xively::Trigger.new(trigger_as_(:json), :xml)
-        }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-      end
-
-      it "should raise known exception if passed unknown format" do
-        expect {
-          Xively::Trigger.new(trigger_as_(:json), :png)
-        }.to raise_error(Xively::InvalidFormatError)
-      end
-    end
-
-    context "specifying format" do
-      it "should raise known exception if told xml but given json" do
-        expect {
-          Xively::Trigger.new(trigger_as_(:json), :xml)
-        }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-      end
-
-      it "should raise known exception if told json but given xml" do
-        expect {
-          Xively::Trigger.new(trigger_as_(:xml), :json)
-        }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
-      end
-
-      it "should raise known exception if given unknown format" do
-        expect {
-          Xively::Trigger.new(trigger_as_(:xml), :gif)
-        }.to raise_error(Xively::InvalidFormatError)
-      end
     end
   end
 

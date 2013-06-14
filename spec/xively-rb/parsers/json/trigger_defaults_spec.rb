@@ -16,7 +16,7 @@ describe "default trigger json parser" do
 
   it "should raise known exception if passed garbage as json" do
     expect {
-      Xively::Trigger.new("This is not JSON", :json)
+      Xively::Trigger.new("This is not JSON")
     }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
   end
 end

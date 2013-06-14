@@ -47,6 +47,13 @@ describe "default feed json parser" do
         Xively::Feed.new(json)
       }.to raise_error(Xively::Parsers::JSON::InvalidJSONError, "\"datastreams\" must be an array")
     end
+
+    it "should throw an error if parsing garbage" do
+      json = "garbage"
+      expect {
+        Xively::Feed.new(json)
+      }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
+    end
   end
 end
 

@@ -8,7 +8,7 @@ describe "default key json parser" do
 
   it "should raise known exception if passed garbage as json" do
     expect {
-      Xively::Key.new("this ain't json", :json)
+      Xively::Key.new("this ain't json")
     }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
   end
 end

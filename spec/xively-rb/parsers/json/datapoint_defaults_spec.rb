@@ -15,7 +15,7 @@ describe "default datapoint json parser" do
 
   it "should raise known exeception if passed garbage as json" do
     expect {
-      Xively::Datapoint.new("This is not\nJSON", :json)
+      Xively::Datapoint.new("This is not\nJSON")
     }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
   end
 end

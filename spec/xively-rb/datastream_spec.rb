@@ -104,62 +104,19 @@ describe Xively::Datastream do
       end
     end
 
-    %w(xml json hash csv).each do |format|
+    %w(json hash).each do |format|
       it "should accept #{format}" do
         datastream = Xively::Datastream.new(datastream_as_(format.to_sym))
         datastream.current_value.should == "14"
       end
 
-      %w(to_csv as_json to_xml to_json attributes).each do |output_format|
+      %w(as_json to_json attributes).each do |output_format|
         it "should be able to output from #{format} using #{output_format}" do
           datastream = Xively::Datastream.new(datastream_as_(format.to_sym))
           lambda {datastream.send(output_format.to_sym)}.should_not raise_error
         end
       end
     end
-
-    it "should raise known exception if passed json but told xml" do
-      expect {
-        Xively::Datastream.new(datastream_as_(:json), :v2, :xml)
-      }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-    end
-
-    it "should raise known exception if passed csv but told xml" do
-      expect {
-        Xively::Datastream.new(datastream_as_(:csv), :v2, :xml)
-      }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-    end
-
-    it "should raise known exception if passed xml but told json" do
-      expect {
-        Xively::Datastream.new(datastream_as_(:xml), :v2, :json)
-      }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
-    end
-
-    it "should raise known exception if passed csv but told json" do
-      expect {
-        Xively::Datastream.new(datastream_as_(:csv), :v2, :json)
-      }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
-    end
-
-    it "should raise known exception if passed json but told csv" do
-      expect {
-        Xively::Datastream.new(datastream_as_(:json), :v2, :csv)
-      }.to raise_error(Xively::Parsers::CSV::InvalidCSVError)
-    end
-
-    it "should raise known exception if passed xml but told csv" do
-      expect {
-        Xively::Datastream.new(datastream_as_(:xml), :v2, :csv)
-      }.to raise_error(Xively::Parsers::CSV::InvalidCSVError)
-    end
-
-    it "should raise known exception if told some format we don't accept" do
-      expect {
-        Xively::Datastream.new(datastream_as_(:xml), :v2, :html)
-      }.to raise_error(Xively::InvalidFormatError)
-    end
-
   end
 
   describe "#attributes" do
@@ -262,43 +219,6 @@ describe Xively::Datastream do
       datastream = Xively::Datastream.new({})
       datastream.generate_json("1.0.0").should == {:version => "1.0.0"}
     end
-  end
-
-  describe "#to_csv" do
-
-    it "should call the csv generator with default version" do
-      datastream = Xively::Datastream.new({})
-      datastream.should_receive(:generate_csv).with("2", {}).and_return("2")
-      datastream.to_csv.should == "2"
-    end
-
-    it "should accept optional xml version" do
-      datastream = Xively::Datastream.new({})
-      datastream.should_receive(:generate_csv).with("1", {}).and_return("1234,32")
-      datastream.to_csv(:version => "1").should == "1234,32"
-    end
-
-    it "should accept additional options" do
-      datastream = Xively::Datastream.new({})
-      datastream.should_receive(:generate_csv).with("1", {:full => true}).and_return("34")
-      datastream.to_csv(:version => "1", :full => true).should == "34"
-    end
-  end
-
-  describe "#to_xml" do
-
-    it "should call the xml generator with default version" do
-      datastream = Xively::Datastream.new({})
-      datastream.should_receive(:generate_xml).with("0.5.1", {}).and_return("<xml></xml>")
-      datastream.to_xml.should == "<xml></xml>"
-    end
-
-    it "should accept optional xml version" do
-      datastream = Xively::Datastream.new({})
-      datastream.should_receive(:generate_xml).with("5", {}).and_return("<xml></xml>")
-      datastream.to_xml(:version => "5").should == "<xml></xml>"
-    end
-
   end
 
   describe "#as_json" do

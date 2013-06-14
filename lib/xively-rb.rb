@@ -1,6 +1,4 @@
-require 'nokogiri'
 require 'multi_json'
-require 'multi_xml'
 
 $:.unshift(File.dirname(File.expand_path(__FILE__)))
 
@@ -29,18 +27,3 @@ require 'xively-rb/version'
 
 require 'xively-rb/client'
 require 'xively-rb/client/feed_handler'
-
-if defined?(JRUBY_VERSION)
-  MultiXml.parser = :nokogiri
-else
-  MultiXml.parser = :ox
-end
-
-if RUBY_VERSION.to_f < 1.9
-  require 'fastercsv'
-  Xively::CSV = FasterCSV
-else
-  require 'csv'
-  Xively::CSV = CSV
-end
-

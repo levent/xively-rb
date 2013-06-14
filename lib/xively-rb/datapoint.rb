@@ -4,10 +4,7 @@ module Xively
     ALLOWED_KEYS.each { |key| attr_accessor(key.to_sym) }
 
     include Xively::Templates::JSON::DatapointDefaults
-    include Xively::Templates::XML::DatapointDefaults
-    include Xively::Templates::CSV::DatapointDefaults
     include Xively::Parsers::JSON::DatapointDefaults
-    include Xively::Parsers::XML::DatapointDefaults
 
     # validates_presence_of :datastream_id
     # validates_presence_of :value
@@ -25,14 +22,11 @@ module Xively
       return pass
     end
 
-    def initialize(input = {}, format = nil)
-      raise InvalidFormatError, "Unknown format specified, currently we can only parse JSON or XML." unless [nil,:json,:xml].include?(format)
+    def initialize(input = {})
       if input.is_a? Hash
         self.attributes = input
-      elsif format == :json || (format.nil? && input.strip[0...1].to_s == "{")
-        self.attributes = from_json(input)
       else
-        self.attributes = from_xml(input)
+        self.attributes = from_json(input)
       end
     end
 
@@ -58,14 +52,6 @@ module Xively
 
     def to_json(options = {})
       MultiJson.dump as_json(options)
-    end
-
-    def to_xml(options = {})
-      generate_xml(options[:version])
-    end
-
-    def to_csv(options = {})
-      generate_csv(options.delete(:version), options)
     end
   end
 end

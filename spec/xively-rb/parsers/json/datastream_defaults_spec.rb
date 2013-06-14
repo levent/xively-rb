@@ -32,7 +32,7 @@ describe "default datastream json parser" do
 
   it "should raise known exception if passed garbage as JSON" do
     expect {
-      Xively::Datastream.new("This is not json", :v2, :json)
+      Xively::Datastream.new("This is not json")
     }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
   end
 

@@ -57,11 +57,6 @@ describe Xively::Key do
       end
     end
 
-    it "should accept xml" do
-      key = Xively::Key.new(key_as_(:xml))
-      key.permissions.first.access_methods.should == ["get", "put", "post", "delete"]
-    end
-
     it "should accept json" do
       key = Xively::Key.new(key_as_(:json))
       key.permissions.first.access_methods.should == ["get", "put", "post", "delete"]
@@ -70,26 +65,6 @@ describe Xively::Key do
     it "should accept a hash of attributes" do
       key = Xively::Key.new(key_as_(:hash))
       key.permissions.first.access_methods.should == ["get", "put", "post", "delete"]
-    end
-
-    context "specifying format" do
-      it "should raise known exception if told xml but given json" do
-        expect {
-          Xively::Key.new(key_as_(:json), :xml)
-        }.to raise_error(Xively::Parsers::XML::InvalidXMLError)
-      end
-
-      it "should raise known exception if told json but given xml" do
-        expect {
-          Xively::Key.new(key_as_(:xml), :json)
-        }.to raise_error(Xively::Parsers::JSON::InvalidJSONError)
-      end
-
-      it "should raise known exception if given unknown format" do
-        expect {
-          Xively::Key.new(key_as_(:xml), :gif)
-        }.to raise_error(Xively::InvalidFormatError)
-      end
     end
   end
 

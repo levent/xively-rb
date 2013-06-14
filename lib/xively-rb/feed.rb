@@ -5,11 +5,7 @@ module Xively
     ALLOWED_KEYS.each { |key| attr_accessor(key.to_sym) }
 
     include Xively::Templates::JSON::FeedDefaults
-    include Xively::Templates::XML::FeedDefaults
-    include Xively::Templates::CSV::FeedDefaults
     include Xively::Parsers::JSON::FeedDefaults
-    include Xively::Parsers::XML::FeedDefaults
-    include Xively::Parsers::CSV::FeedDefaults
 
     include Validations
 
@@ -38,16 +34,11 @@ module Xively
       return pass
     end
 
-    def initialize(input = {}, csv_version = nil, format = nil)
-      raise InvalidFormatError, "Unknown format specified, currently we can only parse JSON, XML or CSV." unless [nil,:json,:xml,:csv].include?(format)
+    def initialize(input = {})
       if input.is_a?(Hash)
         self.attributes = input
-      elsif format == :json || (format.nil? && input.strip[0...1].to_s == "{")
-        self.attributes = from_json(input)
-      elsif format == :xml || (format.nil? && input.strip[0...5].to_s == "<?xml" || input.strip[0...5].to_s == "<eeml")
-        self.attributes = from_xml(input)
       else
-        self.attributes = from_csv(input, csv_version)
+        self.attributes = from_json(input)
       end
     end
 
@@ -92,18 +83,5 @@ module Xively
     def to_json(options = {})
       MultiJson.dump as_json(options)
     end
-
-    def to_xml(options = {})
-      options[:version] ||= "0.5.1"
-      generate_xml(options.delete(:version), options)
-    end
-
-    def to_csv(options = {})
-      options[:version] ||= "2"
-      generate_csv(options.delete(:version), options)
-    end
-
   end
 end
-
-

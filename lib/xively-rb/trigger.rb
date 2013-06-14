@@ -5,7 +5,6 @@ module Xively
 
     include Xively::Templates::JSON::TriggerDefaults
     include Xively::Parsers::JSON::TriggerDefaults
-    include Xively::Parsers::XML::TriggerDefaults
 
     # validates_presence_of :url
     # validates_presence_of :stream_id
@@ -25,14 +24,11 @@ module Xively
       return pass
     end
 
-    def initialize(input = {}, format = nil)
-      raise InvalidFormatError, "Unknown format specified, currently we can only parse JSON or XML." unless [nil,:json,:xml].include?(format)
+    def initialize(input = {})
       if input.is_a?(Hash)
         self.attributes = input
-      elsif format == :json || (format.nil? && input.strip[0...1].to_s == "{")
-        self.attributes = from_json(input)
       else
-        self.attributes = from_xml(input)
+        self.attributes = from_json(input)
       end
     end
 
