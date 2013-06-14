@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Paul Bellamy", "Levent Ali", "Sam Mulube"]
   s.email       = ["paul.a.bellamy@gmail.com", "lebreeze@gmail.com", "sam@pachube.com"]
   s.homepage    = "http://github.com/xively/xively-rb"
-  s.summary     = "A library for communicating with the Xively REST API, parsing and rendering Xively feed formats"
-  s.description = "A library for communicating with the Xively REST API, parsing and rendering Xively feed formats"
+  s.summary     = "A library for communicating with the Xively REST API"
+  s.description = "A library for communicating with the Xively REST API"
   s.license     = "BSD 3-Clause License"
 
   s.files         = `git ls-files`.split("\n")
