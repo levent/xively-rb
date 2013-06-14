@@ -28,6 +28,7 @@ require 'xively-rb/resource'
 require 'xively-rb/version'
 
 require 'xively-rb/client'
+require 'xively-rb/client/feed_handler'
 
 if defined?(JRUBY_VERSION)
   MultiXml.parser = :nokogiri

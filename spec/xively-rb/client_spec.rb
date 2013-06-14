@@ -48,4 +48,28 @@ describe "Xively::Client" do
       request_stub.should have_been_made
     end
   end
+
+  context "feeds" do
+    describe "#feeds.all" do
+      it "should return the feeds for that api key" do
+        request_stub = stub_request(:get, "#{Xively::Client.base_uri}/v2/feeds.json").
+          with(:headers => {'User-Agent' => Xively::Client.user_agent, 'X-ApiKey' => 'abcdefg'}).
+          to_return(:body => search_result_as_json('1.0.0'))
+        feeds = @client.feeds.all
+        request_stub.should have_been_made
+        feeds.first.class.should == Xively::Feed
+      end
+    end
+
+    describe "#feeds.get(:id)" do
+      it "should return an individual feed" do
+        request_stub = stub_request(:get, "#{Xively::Client.base_uri}/v2/feeds/504.json").
+          with(:headers => {'User-Agent' => Xively::Client.user_agent, 'X-ApiKey' => 'abcdefg'}).
+          to_return(:body => feed_as_json('1.0.0'))
+        feed = @client.feeds.get(504)
+        request_stub.should have_been_made
+        feed.class.should == Xively::Feed
+      end
+    end
+  end
 end

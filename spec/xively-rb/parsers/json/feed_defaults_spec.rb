@@ -45,7 +45,7 @@ describe "default feed json parser" do
       json = "{\"version\":\"1.0.0\",\"datastreams\":\"foobar\"}"
       expect {
         Xively::Feed.new(json)
-      }.should raise_error(Xively::Parsers::JSON::InvalidJSONError, "\"datastreams\" must be an array")
+      }.to raise_error(Xively::Parsers::JSON::InvalidJSONError, "\"datastreams\" must be an array")
     end
   end
 end

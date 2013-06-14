@@ -12,6 +12,7 @@ module Xively
 
     def initialize(api_key)
       @api_key = api_key
+      @feed_handler = FeedHandler.new(parse_options)
     end
 
     def get(url, options = {})
@@ -28,6 +29,10 @@ module Xively
 
     def post(url, options = {})
       self.class.post(url, parse_options(options))
+    end
+
+    def feeds
+      @feed_handler
     end
 
     private
